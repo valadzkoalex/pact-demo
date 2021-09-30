@@ -1,0 +1,11 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# intellij files
+.idea
+out/
+# build files
+build
+# gradle files
+*.iml
+.gradle

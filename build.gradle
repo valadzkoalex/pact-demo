@@ -1,0 +1,57 @@
+plugins {
+    id 'java'
+    id "au.com.dius.pact" version "4.1.0"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    // JUnit 5
+    implementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    implementation 'org.junit.jupiter:junit-jupiter-engine'
+    // JUnit Platform
+    implementation group: 'org.junit.platform', name: 'junit-platform-suite-api', version: '1.7.1'
+    implementation group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.0.0-M1'
+    // OkHttp
+    implementation group: 'com.squareup.okhttp3', name: 'logging-interceptor', version: '5.0.0-alpha.2'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '5.0.0-alpha.2'
+    // PACT
+    implementation group: 'au.com.dius.pact.consumer', name: 'junit5', version: '4.1.0'
+    implementation group: 'au.com.dius.pact.provider', name: 'junit5', version: '4.1.0'
+    // Hamcrest
+    implementation group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+pact {
+    publish {
+        pactBrokerUrl = 'http://localhost:9292/'
+    }
+
+    broker {
+        pactBrokerUrl = 'http://localhost:9292/'
+    }
+}
+
+task pactConsumerTest (type: Test) {
+    useJUnitPlatform() {
+        includeTags("pact_consumer_test")
+    }
+}
+
+task pactProviderTest (type: Test) {
+    useJUnitPlatform() {
+        systemProperty "tests", "tests.pacts.provider.ZedApiProviderTest"
+        systemProperty "pact.verifier.publishResults", "true"
+        includeTags("pact_provider")
+    }
+}
