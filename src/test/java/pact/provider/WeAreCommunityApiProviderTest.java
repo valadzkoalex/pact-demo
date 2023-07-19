@@ -10,14 +10,14 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-@Provider("zed_api_provider")
+@Provider("wearecommunity_api_provider")
 @PactBroker(host = "localhost:9292", scheme = "http")
-public class ZedApiProviderTest {
+public class WeAreCommunityApiProviderTest {
   @BeforeEach
   public void before(PactVerificationContext context) {
     context.setTarget(
         new HttpsTestTarget(
-            "community-z.com",
+            "wearecommunity.io",
             443,
             "/"));
   }

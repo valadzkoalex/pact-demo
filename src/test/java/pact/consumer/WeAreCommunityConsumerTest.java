@@ -25,21 +25,20 @@ import static org.hamcrest.core.IsEqual.equalTo;
 
 
 @ExtendWith(PactConsumerTestExt.class)
-@PactTestFor(providerName = "zed_api_provider", port = "8091")
-public class ZedDemoConsumerTest {
+@PactTestFor(providerName = "wearecommunity_api_provider", port = "8091")
+public class WeAreCommunityConsumerTest {
   @BeforeEach
   public void setUp(MockServer mockServer) {
     assertThat(mockServer, is(notNullValue()));
   }
 
-  @Pact(consumer = "zed_demo_consumer")
+  @Pact(consumer = "wearecommunity_consumer")
   public RequestResponsePact getEvents(PactDslWithProvider builder) {
     PactDslJsonBody pactBodyJson = new PactDslJsonBody()
             .integerType("total")
             .stringType("period")
             .eachLike("events")
-            .numberType("id")
-            .stringType("title")
+            .stringType("url")
             .closeArray()
             .asBody();
 
@@ -63,6 +62,4 @@ public class ZedDemoConsumerTest {
     Response pactDescribedResponse = client.newCall(request).execute();
     assertThat(pactDescribedResponse.code(), is(equalTo(HttpStatus.SC_OK)));
   }
-
-  // gradle canIDeploy -Ppacticipant=zed_demo_consumer -Ppacticipant=zedApiProvider -Platest=true
 }
